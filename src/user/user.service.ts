@@ -82,6 +82,11 @@ export class UserService {
   async validateUser(email: string, password: string) {
     try {
       const user = await this.prisma.user.findUnique({
+        select: {
+          email: true,
+          role: true,
+          password: true,
+        },
         where: {
           email: email,
         },

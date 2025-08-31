@@ -18,11 +18,12 @@ export class AuthService {
   }
 
   async login(user: LoginUserDto) {
-    console.log(`[AuthService] login: user=${JSON.stringify(user)}`);
-    const payload = { email: user.email };
+    // console.log(`[AuthService] login: user=${JSON.stringify(user)}`);
+    const payload = { email: user.email, role: user.role };
     return {
       access_token: this.jwtService.sign(payload),
       email: user.email,
+      role: user.role,
     };
   }
 }

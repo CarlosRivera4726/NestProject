@@ -10,7 +10,11 @@ export class AuthController {
   @UseGuards(LocalAuthGuard)
   @Post('login')
   async login(@Body() req: LoginUserDto) {
-    console.log(`[AuthController] login`);
+    const result: LoginUserDto = await this.authService.validateUser(
+      req.email,
+      req.password
+    );
+    req.role = result.role || '';
     return this.authService.login(req);
   }
 }
