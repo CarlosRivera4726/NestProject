@@ -69,4 +69,20 @@ export class UserService {
       return JSON.stringify(error);
     }
   }
+
+  async validateUser(email: string, password: string) {
+    try {
+      const user = await this.prisma.user.findUnique({
+        where: {
+          email: email,
+        },
+      });
+      if (user && user.password === password) {
+        return user;
+      }
+      return null;
+    } catch (error) {
+      return JSON.stringify(error);
+    }
+  }
 }
