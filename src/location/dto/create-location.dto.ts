@@ -9,4 +9,6 @@ export class CreateLocationDto {
   coordinates: string;
 
   status: LocationStatus;
+
+  role?: string;
 }

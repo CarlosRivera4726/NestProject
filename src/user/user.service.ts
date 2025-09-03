@@ -3,6 +3,8 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { PrismaService } from 'src/prisma.service';
 import * as bcrypt from 'bcrypt';
+import { AdminClass } from './entities/user.class';
+import { CreateLocationDto } from 'src/location/dto/create-location.dto';
 
 const saltOrRounds = 10;
 
@@ -33,6 +35,16 @@ export class UserService {
 
   async findAll() {
     return await this.prisma.user.findMany({});
+  }
+
+  async createLocation(location: CreateLocationDto) {
+    const admin = new AdminClass(this.prisma, location);
+    return await admin.createLocation();
+  }
+
+  async findAllLocations() {
+    const admin = new AdminClass(this.prisma);
+    return await admin.obtenerUbicaciones();
   }
 
   async findOne(id: number) {

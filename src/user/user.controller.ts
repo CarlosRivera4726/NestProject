@@ -6,10 +6,14 @@ import {
   Patch,
   Param,
   Delete,
+  Res,
+  HttpStatus,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import type { Response } from 'express';
+import { CreateLocationDto } from 'src/location/dto/create-location.dto';
 
 @Controller('user')
 export class UserController {
@@ -18,6 +22,38 @@ export class UserController {
   @Post()
   async create(@Body() createUserDto: CreateUserDto) {
     return await this.userService.create(createUserDto);
+  }
+
+  @Get('getAllLocations')
+  async getAllLocations(
+    @Body() body: { role: string },
+    @Res({ passthrough: true }) res: Response
+  ) {
+    if (body.role === 'admin' || body.role === 'developer') {
+      return await this.userService.findAllLocations();
+    }
+    res
+      .status(HttpStatus.UNAUTHORIZED)
+      .json({ message: 'No tienes permisos', status: HttpStatus.UNAUTHORIZED });
+  }
+
+  @Post('createLocation')
+  async createLocation(
+    @Body() body: CreateLocationDto,
+    @Res({ passthrough: true }) res: Response
+  ) {
+    if (body.role === 'admin' || body.role === 'developer') {
+      const { name, coordinates, status } = body;
+      const location = {
+        name,
+        coordinates,
+        status,
+      };
+      return await this.userService.createLocation(location);
+    }
+    res
+      .status(HttpStatus.UNAUTHORIZED)
+      .json({ message: 'No tienes permisos', status: HttpStatus.UNAUTHORIZED });
   }
 
   @Get()
