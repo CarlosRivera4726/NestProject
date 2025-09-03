@@ -1,10 +1,10 @@
+import { StatusInspection } from '@prisma/client';
 import { IsEnum, IsNotEmpty, IsNumber } from 'class-validator';
-import { InspectionStatus } from 'src/enum/Status';
 
 export class CreateInspectionDto {
-  @IsEnum(InspectionStatus)
+  @IsEnum(StatusInspection)
   @IsNotEmpty()
-  status: InspectionStatus;
+  status: StatusInspection;
   @IsNumber()
   @IsNotEmpty()
   locationId: number;

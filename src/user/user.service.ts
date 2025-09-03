@@ -24,6 +24,7 @@ export class UserService {
           name: createUserDto.name,
           email: createUserDto.email,
           password: hash,
+          role: createUserDto.role || undefined,
         },
       });
 

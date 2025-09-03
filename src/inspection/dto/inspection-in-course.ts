@@ -1,4 +1,4 @@
-import { InspectionStatus } from 'src/enum/Status';
+import { StatusInspection } from '@prisma/client';
 import { Inspection } from '../entities/inspection.entity';
 
 export class InspectionInCourse extends Inspection {
@@ -11,7 +11,7 @@ export class InspectionInCourse extends Inspection {
   }
   async changeInspectionStatus(
     inspectionId: number,
-    status: InspectionStatus
+    status: StatusInspection
   ): Promise<void> {
     console.log(inspectionId, status);
     throw new Error('Method not implemented.');

@@ -14,6 +14,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import type { Response } from 'express';
 import { CreateLocationDto } from 'src/location/dto/create-location.dto';
+import { UserRol } from '@prisma/client';
 
 @Controller('user')
 export class UserController {
@@ -42,7 +43,10 @@ export class UserController {
     @Body() body: CreateLocationDto,
     @Res({ passthrough: true }) res: Response
   ) {
-    if (body.role === 'admin' || body.role === 'developer') {
+    if (
+      body.role?.toUpperCase() === ('ADMIN' as UserRol) ||
+      body.role?.toUpperCase() === ('DEVELOPER' as UserRol)
+    ) {
       const { name, coordinates, status } = body;
       const location = {
         name,

@@ -1,5 +1,5 @@
 import { IsString } from 'class-validator';
-import { LocationStatus } from 'src/enum/Status';
+import { StatusLocation, UserRol } from '@prisma/client';
 
 export class CreateLocationDto {
   @IsString()
@@ -8,7 +8,7 @@ export class CreateLocationDto {
   @IsString()
   coordinates: string;
 
-  status: LocationStatus;
+  status: StatusLocation;
 
-  role?: string;
+  role?: UserRol;
 }

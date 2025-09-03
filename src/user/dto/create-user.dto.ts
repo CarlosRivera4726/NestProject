@@ -1,5 +1,5 @@
+import { UserRol } from '@prisma/client';
 import { IsEmail, IsString } from 'class-validator';
-import { RoleUser } from 'src/enum/RoleUser';
 
 export class CreateUserDto {
   @IsString()
@@ -10,5 +10,5 @@ export class CreateUserDto {
   @IsString()
   password: string;
 
-  role: RoleUser;
+  role?: UserRol;
 }
