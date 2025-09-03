@@ -21,8 +21,21 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Post()
-  async create(@Body() createUserDto: CreateUserDto) {
-    return await this.userService.create(createUserDto);
+  async create(@Body() createUserDto: CreateUserDto, @Res() res: Response) {
+    try {
+      const user = await this.userService.create(createUserDto);
+      res.status(HttpStatus.CREATED).json({
+        message: 'Usuario creado con éxito',
+        status: HttpStatus.CREATED,
+        data: user,
+      });
+    } catch (error) {
+      res.status(HttpStatus.BAD_REQUEST).json({
+        message: 'Error al crear el usuario',
+        status: HttpStatus.BAD_REQUEST,
+        data: error,
+      });
+    }
   }
 
   @Get('getAllLocations')

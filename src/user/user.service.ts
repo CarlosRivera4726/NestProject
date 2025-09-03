@@ -5,6 +5,7 @@ import { PrismaService } from 'src/prisma.service';
 import * as bcrypt from 'bcrypt';
 import { AdminClass } from './entities/user.class';
 import { CreateLocationDto } from 'src/location/dto/create-location.dto';
+import { UserRol } from '@prisma/client';
 
 const saltOrRounds = 10;
 
@@ -24,13 +25,13 @@ export class UserService {
           name: createUserDto.name,
           email: createUserDto.email,
           password: hash,
-          role: createUserDto.role || undefined,
+          role: (createUserDto.role?.toUpperCase() as UserRol) || undefined,
         },
       });
 
-      return JSON.stringify(user);
-    } catch (error) {
-      return JSON.stringify(error);
+      return user;
+    } catch (error: unknown) {
+      return error;
     }
   }
 
