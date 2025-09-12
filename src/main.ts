@@ -18,9 +18,8 @@ async function bootstrap() {
     .addTag('locations', 'Gestión de ubicaciones')
     .addTag('inspections', 'Gestión de inspecciones')
     .addTag('inspectors', 'Gestión de inspectores')
-    .addTag('usuarios', 'Gestión de usuarios')
-    .addTag('roles', 'Gestión de roles')
-    .addTag('administradores', 'Gestión de administradores')
+    .addTag('usuario', 'Gestión de usuarios')
+    .addTag('administrator', 'Gestión de administradores')
     .build();
   const documentFactory = () => SwaggerModule.createDocument(app, config);
   app.useGlobalPipes(new ValidationPipe({ transform: true }));
