@@ -8,4 +8,11 @@ export class CreateInspectorDto {
   })
   @IsNumber()
   personaId: number;
+
+  @ApiProperty({
+    description: 'ID de la ubicación a inspeccionar',
+    example: 1,
+  })
+  @IsNumber()
+  locationId: number;
 }

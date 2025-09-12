@@ -12,6 +12,7 @@ export class InspectorService {
       const inspector = await this.prisma.inspector.create({
         data: {
           personaId: createInspectorDto.personaId,
+          locationId: createInspectorDto.locationId,
         },
       });
 

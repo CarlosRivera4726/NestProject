@@ -33,15 +33,16 @@ enum StatusInspection {
 }
 
 model Persona {
-  id         Int          @id @default(autoincrement())
-  email      String       @unique
-  name       String
-  password   String
-  role       PersonaRol   @default(DEVELOPER)
-  created_at DateTime     @default(now())
-  updated_at DateTime     @updatedAt
-  Inspector  Inspector[]
-  Inspection Inspection[]
+  id            Int             @id @default(autoincrement())
+  email         String          @unique
+  name          String
+  password      String
+  role          PersonaRol      @default(DEVELOPER)
+  created_at    DateTime        @default(now())
+  updated_at    DateTime        @updatedAt
+  Inspector     Inspector[]
+  Administrador Administrador[]
+  Usuario       Usuario[]
 }
 
 model Inspector {
@@ -51,8 +52,25 @@ model Inspector {
   created_at DateTime     @default(now())
   updated_at DateTime     @updatedAt
   Inspection Inspection[]
-  Location   Location?    @relation(fields: [locationId], references: [id])
-  locationId Int?
+  Location   Location     @relation(fields: [locationId], references: [id])
+  locationId Int
+}
+
+model Administrador {
+  id         Int      @id @default(autoincrement())
+  persona    Persona  @relation(fields: [personaId], references: [id])
+  personaId  Int
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+model Usuario {
+  id         Int          @id @default(autoincrement())
+  persona    Persona      @relation(fields: [personaId], references: [id])
+  personaId  Int
+  created_at DateTime     @default(now())
+  updated_at DateTime     @updatedAt
+  Inspection Inspection[]
 }
 
 model Location {
@@ -74,8 +92,8 @@ model Inspection {
   locationId  Int
   inspector   Inspector        @relation(fields: [inspectorId], references: [id])
   inspectorId Int
-  persona     Persona          @relation(fields: [personaId], references: [id])
-  personaId   Int
+  usuario     Usuario          @relation(fields: [usuarioId], references: [id])
+  usuarioId   Int
   created_at  DateTime         @default(now())
   updated_at  DateTime         @updatedAt
 }

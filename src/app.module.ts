@@ -5,6 +5,8 @@ import { PersonaModule } from './persona/persona.module';
 import { PrismaService } from './prisma.service';
 import { AuthModule } from './auth/auth.module';
 import { InspectorModule } from './inspector/inspector.module';
+import { AdministratorModule } from './administrator/administrator.module';
+import { UsuarioModule } from './usuario/usuario.module';
 
 @Module({
   imports: [
@@ -13,6 +15,8 @@ import { InspectorModule } from './inspector/inspector.module';
     PersonaModule,
     AuthModule,
     InspectorModule,
+    AdministratorModule,
+    UsuarioModule,
   ],
   controllers: [],
   providers: [PrismaService],
