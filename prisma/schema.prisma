@@ -48,11 +48,11 @@ model Inspector {
   id         Int          @id @default(autoincrement())
   persona    Persona      @relation(fields: [personaId], references: [id])
   personaId  Int
-  location   Location     @relation(fields: [locationId], references: [id])
-  locationId Int
   created_at DateTime     @default(now())
   updated_at DateTime     @updatedAt
   Inspection Inspection[]
+  Location   Location?    @relation(fields: [locationId], references: [id])
+  locationId Int?
 }
 
 model Location {

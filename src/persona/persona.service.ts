@@ -3,8 +3,6 @@ import { CreatePersonaDto } from './dto/create-persona.dto';
 import { UpdatePersonaDto } from './dto/update-persona.dto';
 import { PrismaService } from 'src/prisma.service';
 import * as bcrypt from 'bcrypt';
-import { AdminClass } from './entities/persona.class';
-import { CreateLocationDto } from 'src/location/dto/create-location.dto';
 import { PersonaRol } from '@prisma/client';
 
 const saltOrRounds = 10;
@@ -12,6 +10,7 @@ const saltOrRounds = 10;
 @Injectable()
 export class PersonaService {
   constructor(private prisma: PrismaService) {}
+
   async create(createPersonaDto: CreatePersonaDto) {
     try {
       const hash = await bcrypt.hash(createPersonaDto.password, saltOrRounds);
@@ -30,6 +29,9 @@ export class PersonaService {
         },
       });
 
+      if (!persona) {
+        throw new Error('Failed to create persona');
+      }
       return persona;
     } catch (error: unknown) {
       return error;
@@ -38,16 +40,6 @@ export class PersonaService {
 
   async findAll() {
     return await this.prisma.persona.findMany({});
-  }
-
-  async createLocation(location: CreateLocationDto) {
-    const admin = new AdminClass(this.prisma, location);
-    return await admin.createLocation();
-  }
-
-  async findAllLocations() {
-    const admin = new AdminClass(this.prisma);
-    return await admin.obtenerUbicaciones();
   }
 
   async findOne(id: number) {
