@@ -23,42 +23,59 @@ enum PersonaRol {
 }
 
 enum StatusLocation {
-  ACTIVE
   AVALAIBLE
-  INACTIVE
   UNAVALAIBLE
 }
 
 enum StatusInspection {
-  ACTIVE
   AVALAIBLE
-  INACTIVE
   UNAVALAIBLE
 }
 
 model Persona {
-  id         Int        @id @default(autoincrement())
-  email      String     @unique
+  id         Int          @id @default(autoincrement())
+  email      String       @unique
   name       String
   password   String
-  role       PersonaRol @default(DEVELOPER)
-  created_at DateTime   @default(now())
-  updated_at DateTime   @updatedAt
+  role       PersonaRol   @default(DEVELOPER)
+  created_at DateTime     @default(now())
+  updated_at DateTime     @updatedAt
+  Inspector  Inspector[]
+  Inspection Inspection[]
+}
+
+model Inspector {
+  id         Int          @id @default(autoincrement())
+  persona    Persona      @relation(fields: [personaId], references: [id])
+  personaId  Int
+  location   Location     @relation(fields: [locationId], references: [id])
+  locationId Int
+  created_at DateTime     @default(now())
+  updated_at DateTime     @updatedAt
+  Inspection Inspection[]
 }
 
 model Location {
   id          Int            @id @default(autoincrement())
   name        String
   coordinates String
-  status      StatusLocation @default(ACTIVE)
+  status      StatusLocation @default(AVALAIBLE)
   created_at  DateTime       @default(now())
   updated_at  DateTime       @updatedAt
+  Inspector   Inspector[]
+  Inspection  Inspection[]
 }
 
 model Inspection {
-  id         Int              @id @default(autoincrement())
-  name       String
-  status     StatusInspection @default(ACTIVE)
-  created_at DateTime         @default(now())
-  updated_at DateTime         @updatedAt
+  id          Int              @id @default(autoincrement())
+  name        String
+  status      StatusInspection @default(AVALAIBLE)
+  location    Location         @relation(fields: [locationId], references: [id])
+  locationId  Int
+  inspector   Inspector        @relation(fields: [inspectorId], references: [id])
+  inspectorId Int
+  persona     Persona          @relation(fields: [personaId], references: [id])
+  personaId   Int
+  created_at  DateTime         @default(now())
+  updated_at  DateTime         @updatedAt
 }
