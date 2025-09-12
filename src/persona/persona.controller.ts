@@ -9,29 +9,32 @@ import {
   Res,
   HttpStatus,
 } from '@nestjs/common';
-import { UserService } from './user.service';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
+import { PersonaService } from './persona.service';
+import { CreatePersonaDto } from './dto/create-persona.dto';
+import { UpdatePersonaDto } from './dto/update-persona.dto';
 import type { Response } from 'express';
 import { CreateLocationDto } from 'src/location/dto/create-location.dto';
-import { UserRol } from '@prisma/client';
+import { PersonaRol } from '@prisma/client';
 
-@Controller('user')
-export class UserController {
-  constructor(private readonly userService: UserService) {}
+@Controller('persona')
+export class PersonaController {
+  constructor(private readonly personaService: PersonaService) {}
 
   @Post()
-  async create(@Body() createUserDto: CreateUserDto, @Res() res: Response) {
+  async create(
+    @Body() createPersonaDto: CreatePersonaDto,
+    @Res() res: Response
+  ) {
     try {
-      const user = await this.userService.create(createUserDto);
+      const persona = await this.personaService.create(createPersonaDto);
       res.status(HttpStatus.CREATED).json({
-        message: 'Usuario creado con éxito',
+        message: 'Persona creada con éxito',
         status: HttpStatus.CREATED,
-        data: user,
+        data: persona,
       });
     } catch (error) {
       res.status(HttpStatus.BAD_REQUEST).json({
-        message: 'Error al crear el usuario',
+        message: 'Error al crear la persona',
         status: HttpStatus.BAD_REQUEST,
         data: error,
       });
@@ -44,7 +47,7 @@ export class UserController {
     @Res({ passthrough: true }) res: Response
   ) {
     if (body.role === 'admin' || body.role === 'developer') {
-      return await this.userService.findAllLocations();
+      return await this.personaService.findAllLocations();
     }
     res
       .status(HttpStatus.UNAUTHORIZED)
@@ -57,8 +60,8 @@ export class UserController {
     @Res({ passthrough: true }) res: Response
   ) {
     if (
-      body.role?.toUpperCase() === ('ADMIN' as UserRol) ||
-      body.role?.toUpperCase() === ('DEVELOPER' as UserRol)
+      body.role?.toUpperCase() === ('ADMIN' as PersonaRol) ||
+      body.role?.toUpperCase() === ('DEVELOPER' as PersonaRol)
     ) {
       const { name, coordinates, status } = body;
       const location = {
@@ -66,7 +69,7 @@ export class UserController {
         coordinates,
         status,
       };
-      return await this.userService.createLocation(location);
+      return await this.personaService.createLocation(location);
     }
     res
       .status(HttpStatus.UNAUTHORIZED)
@@ -75,21 +78,21 @@ export class UserController {
 
   @Get()
   findAll() {
-    return this.userService.findAll();
+    return this.personaService.findAll();
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.userService.findOne(+id);
+    return this.personaService.findOne(+id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.userService.update(+id, updateUserDto);
+  update(@Param('id') id: string, @Body() updatePersonaDto: UpdatePersonaDto) {
+    return this.personaService.update(+id, updatePersonaDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.userService.remove(+id);
+    return this.personaService.remove(+id);
   }
 }

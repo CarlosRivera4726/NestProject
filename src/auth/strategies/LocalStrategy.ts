@@ -17,10 +17,10 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
     console.log(
       `[LocalStrategy] validate: email=${email}, password=${password}`
     );
-    const user = await this.authService.validateUser(email, password);
-    if (!user) {
+    const persona = await this.authService.validateUser(email, password);
+    if (!persona) {
       throw new UnauthorizedException();
     }
-    return user;
+    return persona;
   }
 }

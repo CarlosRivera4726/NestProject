@@ -1,42 +1,43 @@
 import { Injectable } from '@nestjs/common';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
+import { CreatePersonaDto } from './dto/create-persona.dto';
+import { UpdatePersonaDto } from './dto/update-persona.dto';
 import { PrismaService } from 'src/prisma.service';
 import * as bcrypt from 'bcrypt';
-import { AdminClass } from './entities/user.class';
+import { AdminClass } from './entities/persona.class';
 import { CreateLocationDto } from 'src/location/dto/create-location.dto';
-import { UserRol } from '@prisma/client';
+import { PersonaRol } from '@prisma/client';
 
 const saltOrRounds = 10;
 
 @Injectable()
-export class UserService {
+export class PersonaService {
   constructor(private prisma: PrismaService) {}
-  async create(createUserDto: CreateUserDto) {
+  async create(createPersonaDto: CreatePersonaDto) {
     try {
-      const hash = await bcrypt.hash(createUserDto.password, saltOrRounds);
-      const user = await this.prisma.user.create({
+      const hash = await bcrypt.hash(createPersonaDto.password, saltOrRounds);
+      const persona = await this.prisma.persona.create({
         select: {
           id: true,
           name: true,
           email: true,
         },
         data: {
-          name: createUserDto.name,
-          email: createUserDto.email,
+          name: createPersonaDto.name,
+          email: createPersonaDto.email,
           password: hash,
-          role: (createUserDto.role?.toUpperCase() as UserRol) || undefined,
+          role:
+            (createPersonaDto.role?.toUpperCase() as PersonaRol) || undefined,
         },
       });
 
-      return user;
+      return persona;
     } catch (error: unknown) {
       return error;
     }
   }
 
   async findAll() {
-    return await this.prisma.user.findMany({});
+    return await this.prisma.persona.findMany({});
   }
 
   async createLocation(location: CreateLocationDto) {
@@ -51,30 +52,30 @@ export class UserService {
 
   async findOne(id: number) {
     try {
-      const user = await this.prisma.user.findUnique({
+      const persona = await this.prisma.persona.findUnique({
         where: {
           id: id,
         },
       });
-      return JSON.stringify(user);
+      return JSON.stringify(persona);
     } catch (error) {
       return JSON.stringify(error);
     }
   }
 
-  async update(id: number, updateUserDto: UpdateUserDto) {
+  async update(id: number, updatePersonaDto: UpdatePersonaDto) {
     try {
-      const user = await this.prisma.user.update({
+      const persona = await this.prisma.persona.update({
         where: {
           id: id,
         },
         data: {
-          name: updateUserDto.name,
-          email: updateUserDto.email,
-          password: updateUserDto.password,
+          name: updatePersonaDto.name,
+          email: updatePersonaDto.email,
+          password: updatePersonaDto.password,
         },
       });
-      return JSON.stringify(user);
+      return JSON.stringify(persona);
     } catch (error) {
       return JSON.stringify(error);
     }
@@ -82,12 +83,12 @@ export class UserService {
 
   async remove(id: number) {
     try {
-      const user = await this.prisma.user.delete({
+      const persona = await this.prisma.persona.delete({
         where: {
           id: id,
         },
       });
-      return JSON.stringify(user);
+      return JSON.stringify(persona);
     } catch (error) {
       return JSON.stringify(error);
     }
@@ -95,7 +96,7 @@ export class UserService {
 
   async validateUser(email: string, password: string) {
     try {
-      const user = await this.prisma.user.findUnique({
+      const persona = await this.prisma.persona.findUnique({
         select: {
           email: true,
           role: true,
@@ -105,8 +106,8 @@ export class UserService {
           email: email,
         },
       });
-      if (user && (await bcrypt.compare(password, user.password))) {
-        return user;
+      if (persona && (await bcrypt.compare(password, persona.password))) {
+        return persona;
       }
       return null;
     } catch (error) {

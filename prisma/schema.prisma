@@ -14,9 +14,9 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-enum UserRol {
+enum PersonaRol {
   ADMIN
-  USER
+  PERSONA
   INSPECTOR
   DEVELOPER
   VIEWER
@@ -36,14 +36,14 @@ enum StatusInspection {
   UNAVALAIBLE
 }
 
-model User {
-  id         Int      @id @default(autoincrement())
-  email      String   @unique
+model Persona {
+  id         Int        @id @default(autoincrement())
+  email      String     @unique
   name       String
   password   String
-  role       UserRol  @default(DEVELOPER)
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
+  role       PersonaRol @default(DEVELOPER)
+  created_at DateTime   @default(now())
+  updated_at DateTime   @updatedAt
 }
 
 model Location {

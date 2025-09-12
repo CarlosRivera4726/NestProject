@@ -2,7 +2,7 @@ import { StatusLocation } from '@prisma/client';
 import { CreateLocationDto } from 'src/location/dto/create-location.dto';
 import { Location } from 'src/location/entities/location.entity';
 import { PrismaService } from 'src/prisma.service';
-abstract class UserClass {
+abstract class PersonaClass {
   name: string;
   email: string;
   password: string;
@@ -11,7 +11,7 @@ abstract class UserClass {
   public abstract createLocation(): Promise<Location>;
 }
 
-export class AdminClass extends UserClass {
+export class AdminClass extends PersonaClass {
   location: Location;
   constructor(
     private prisma: PrismaService,

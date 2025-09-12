@@ -1,5 +1,5 @@
 import { IsString } from 'class-validator';
-import { StatusLocation, UserRol } from '@prisma/client';
+import { StatusLocation, PersonaRol } from '@prisma/client';
 
 export class CreateLocationDto {
   @IsString()
@@ -10,5 +10,5 @@ export class CreateLocationDto {
 
   status: StatusLocation;
 
-  role?: UserRol;
+  role?: PersonaRol;
 }

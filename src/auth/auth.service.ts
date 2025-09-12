@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { LoginUserDto } from 'src/user/dto/login-user.dto';
-import { UserService } from 'src/user/user.service';
+import { LoginPersonaDto } from 'src/persona/dto/login-persona.dto';
+import { PersonaService } from 'src/persona/persona.service';
 
 @Injectable()
 export class AuthService {
   constructor(
-    private usersService: UserService,
+    private personasService: PersonaService,
     private jwtService: JwtService
   ) {}
 
@@ -14,16 +14,16 @@ export class AuthService {
     console.log(
       `[AuthService] validateUser: email=${email}, password=${password}`
     );
-    return await this.usersService.validateUser(email, password);
+    return await this.personasService.validateUser(email, password);
   }
 
-  async login(user: LoginUserDto) {
-    // console.log(`[AuthService] login: user=${JSON.stringify(user)}`);
-    const payload = { email: user.email, role: user.role };
+  async login(persona: LoginPersonaDto) {
+    // console.log(`[AuthService] login: persona=${JSON.stringify(persona)}`);
+    const payload = { email: persona.email, role: persona.role };
     return {
       access_token: this.jwtService.sign(payload),
-      email: user.email,
-      role: user.role,
+      email: persona.email,
+      role: persona.role,
     };
   }
 }

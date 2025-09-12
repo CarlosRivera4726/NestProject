@@ -3,15 +3,15 @@ import { AuthService } from './auth.service';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { AuthController } from './auth.controller';
-import { UserModule } from 'src/user/user.module';
+import { PersonaModule } from 'src/persona/persona.module';
 import { appConstants } from 'src/consts/appConstants';
 import { LocalStrategy } from './strategies/LocalStrategy';
-import { UserService } from 'src/user/user.service';
+import { PersonaService } from 'src/persona/persona.service';
 import { PrismaService } from 'src/prisma.service';
 
 @Module({
   imports: [
-    UserModule,
+    PersonaModule,
     PassportModule,
     JwtModule.register({
       secret: appConstants.jwtSecret,
@@ -19,7 +19,7 @@ import { PrismaService } from 'src/prisma.service';
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthService, LocalStrategy, UserService, PrismaService],
+  providers: [AuthService, LocalStrategy, PersonaService, PrismaService],
   exports: [AuthService],
 })
 export class AuthModule {}
