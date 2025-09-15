@@ -11,6 +11,15 @@ BEGIN
     INSERT INTO public."Administrador" ("personaId")
     VALUES (NEW."id")
     ON CONFLICT ("personaId") DO NOTHING;
+  ELSIF NEW."role" = 'INSPECTOR' THEN
+	INSERT INTO public."Inspector" ("personaId")
+	VALUES (NEW."id")
+	ON CONFLICT ("personaId") DO NOTHING;
+
+ ELSIF NEW."role" = 'DEVELOPER' THEN
+	INSERT INTO public."Administrador" ("personaId")
+	VALUES (NEW."id")
+	ON CONFLICT ("personaId") DO NOTHING;
 
   ELSIF NEW."role" = 'USUARIO' THEN
     INSERT INTO public."Usuario" ("personaId")

@@ -52,8 +52,8 @@ model Inspector {
   created_at DateTime     @default(now())
   updated_at DateTime     @default(now()) @updatedAt
   Inspection Inspection[]
-  Location   Location     @relation(fields: [locationId], references: [id])
-  locationId Int
+  Location   Location?    @relation(fields: [locationId], references: [id])
+  locationId Int?         @unique
 }
 
 model Administrador {
