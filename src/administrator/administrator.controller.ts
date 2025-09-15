@@ -26,10 +26,7 @@ export class AdministratorController {
   @Post()
   @ApiOperation({ summary: 'Crear un nuevo administrador' })
   @ApiBody({ type: CreateAdministratorDto })
-  @ApiResponse({
-    status: 201,
-    description: 'Administrador creado exitosamente',
-  })
+  @ApiResponse({ status: 201, description: 'Administrador creado exitosamente' })
   @ApiResponse({ status: 400, description: 'Datos inválidos' })
   create(@Body() createAdministratorDto: CreateAdministratorDto) {
     return this.administratorService.create(createAdministratorDto);
@@ -37,10 +34,7 @@ export class AdministratorController {
 
   @Get()
   @ApiOperation({ summary: 'Obtener todos los administradores' })
-  @ApiResponse({
-    status: 200,
-    description: 'Lista de administradores obtenida exitosamente',
-  })
+  @ApiResponse({ status: 200, description: 'Lista de administradores obtenida exitosamente' })
   findAll() {
     return this.administratorService.findAll();
   }
@@ -48,10 +42,7 @@ export class AdministratorController {
   @Get(':id')
   @ApiOperation({ summary: 'Obtener un administrador por ID' })
   @ApiParam({ name: 'id', description: 'ID del administrador', type: 'number' })
-  @ApiResponse({
-    status: 200,
-    description: 'Administrador encontrado exitosamente',
-  })
+  @ApiResponse({ status: 200, description: 'Administrador encontrado exitosamente' })
   @ApiResponse({ status: 404, description: 'Administrador no encontrado' })
   findOne(@Param('id') id: string) {
     return this.administratorService.findOne(+id);
@@ -61,10 +52,7 @@ export class AdministratorController {
   @ApiOperation({ summary: 'Actualizar un administrador' })
   @ApiParam({ name: 'id', description: 'ID del administrador', type: 'number' })
   @ApiBody({ type: UpdateAdministratorDto })
-  @ApiResponse({
-    status: 200,
-    description: 'Administrador actualizado exitosamente',
-  })
+  @ApiResponse({ status: 200, description: 'Administrador actualizado exitosamente' })
   @ApiResponse({ status: 404, description: 'Administrador no encontrado' })
   update(
     @Param('id') id: string,
@@ -76,10 +64,7 @@ export class AdministratorController {
   @Delete(':id')
   @ApiOperation({ summary: 'Eliminar un administrador' })
   @ApiParam({ name: 'id', description: 'ID del administrador', type: 'number' })
-  @ApiResponse({
-    status: 200,
-    description: 'Administrador eliminado exitosamente',
-  })
+  @ApiResponse({ status: 200, description: 'Administrador eliminado exitosamente' })
   @ApiResponse({ status: 404, description: 'Administrador no encontrado' })
   remove(@Param('id') id: string) {
     return this.administratorService.remove(+id);

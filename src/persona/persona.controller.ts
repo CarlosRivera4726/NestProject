@@ -69,21 +69,8 @@ export class PersonaController {
   @ApiParam({ name: 'id', description: 'ID de la persona' })
   @ApiResponse({ status: 200, description: 'Persona encontrada exitosamente' })
   @ApiResponse({ status: 404, description: 'Persona no encontrada' })
-  async findOne(@Param('id') id: string, @Res() res: Response) {
-    try {
-      const persona = await this.personaService.findOne(+id);
-      res.status(HttpStatus.OK).json({
-        message: 'Persona encontrada con éxito',
-        status: HttpStatus.OK,
-        data: persona,
-      });
-    } catch (error) {
-      res.status(HttpStatus.NOT_FOUND).json({
-        message: 'Persona no encontrada',
-        status: HttpStatus.NOT_FOUND,
-        data: error,
-      });
-    }
+  findOne(@Param('id') id: string) {
+    return this.personaService.findOne(+id);
   }
 
   @Patch(':id')
