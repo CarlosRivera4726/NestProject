@@ -28,7 +28,11 @@ export class AdministratorService {
 
   async findAll() {
     try {
-      const administrators = await this.prisma.administrador.findMany({});
+      const administrators = await this.prisma.administrador.findMany({
+        include: {
+          persona: true,
+        },
+      });
       if (!administrators) {
         throw new Error('Failed to find administrators');
       }

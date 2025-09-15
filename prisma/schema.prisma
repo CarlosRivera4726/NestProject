@@ -39,7 +39,7 @@ model Persona {
   password      String
   role          PersonaRol      @default(DEVELOPER)
   created_at    DateTime        @default(now())
-  updated_at    DateTime        @updatedAt
+  updated_at    DateTime?       @default(now()) @updatedAt
   Inspector     Inspector[]
   Administrador Administrador[]
   Usuario       Usuario[]
@@ -50,7 +50,7 @@ model Inspector {
   persona    Persona      @relation(fields: [personaId], references: [id])
   personaId  Int
   created_at DateTime     @default(now())
-  updated_at DateTime     @updatedAt
+  updated_at DateTime     @default(now()) @updatedAt
   Inspection Inspection[]
   Location   Location     @relation(fields: [locationId], references: [id])
   locationId Int
@@ -59,17 +59,17 @@ model Inspector {
 model Administrador {
   id         Int      @id @default(autoincrement())
   persona    Persona  @relation(fields: [personaId], references: [id])
-  personaId  Int
+  personaId  Int      @unique
   created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
+  updated_at DateTime @default(now()) @updatedAt
 }
 
 model Usuario {
   id         Int          @id @default(autoincrement())
   persona    Persona      @relation(fields: [personaId], references: [id])
-  personaId  Int
+  personaId  Int          @unique
   created_at DateTime     @default(now())
-  updated_at DateTime     @updatedAt
+  updated_at DateTime     @default(now()) @updatedAt
   Inspection Inspection[]
 }
 
@@ -79,7 +79,7 @@ model Location {
   coordinates String
   status      StatusLocation @default(AVALAIBLE)
   created_at  DateTime       @default(now())
-  updated_at  DateTime       @updatedAt
+  updated_at  DateTime       @default(now()) @updatedAt
   Inspector   Inspector[]
   Inspection  Inspection[]
 }

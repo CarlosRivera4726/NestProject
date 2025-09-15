@@ -28,8 +28,8 @@ export class UsuarioController {
   @ApiBody({ type: CreateUsuarioDto })
   @ApiResponse({ status: 201, description: 'Usuario creado exitosamente' })
   @ApiResponse({ status: 400, description: 'Datos inválidos' })
-  create(@Body() createUsuarioDto: CreateUsuarioDto) {
-    return this.usuarioService.create(createUsuarioDto);
+  async create(@Body() createUsuarioDto: CreateUsuarioDto) {
+    return await this.usuarioService.create(createUsuarioDto);
   }
 
   @Get()
@@ -38,8 +38,8 @@ export class UsuarioController {
     status: 200,
     description: 'Lista de usuarios obtenida exitosamente',
   })
-  findAll() {
-    return this.usuarioService.findAll();
+  async findAll() {
+    return await this.usuarioService.findAll();
   }
 
   @Get(':id')
@@ -47,8 +47,8 @@ export class UsuarioController {
   @ApiParam({ name: 'id', description: 'ID del usuario', type: 'number' })
   @ApiResponse({ status: 200, description: 'Usuario encontrado exitosamente' })
   @ApiResponse({ status: 404, description: 'Usuario no encontrado' })
-  findOne(@Param('id') id: string) {
-    return this.usuarioService.findOne(+id);
+  async findOne(@Param('id') id: string) {
+    return await this.usuarioService.findOne(+id);
   }
 
   @Patch(':id')
@@ -57,8 +57,11 @@ export class UsuarioController {
   @ApiBody({ type: UpdateUsuarioDto })
   @ApiResponse({ status: 200, description: 'Usuario actualizado exitosamente' })
   @ApiResponse({ status: 404, description: 'Usuario no encontrado' })
-  update(@Param('id') id: string, @Body() updateUsuarioDto: UpdateUsuarioDto) {
-    return this.usuarioService.update(+id, updateUsuarioDto);
+  async update(
+    @Param('id') id: string,
+    @Body() updateUsuarioDto: UpdateUsuarioDto
+  ) {
+    return await this.usuarioService.update(+id, updateUsuarioDto);
   }
 
   @Delete(':id')
@@ -66,7 +69,7 @@ export class UsuarioController {
   @ApiParam({ name: 'id', description: 'ID del usuario', type: 'number' })
   @ApiResponse({ status: 200, description: 'Usuario eliminado exitosamente' })
   @ApiResponse({ status: 404, description: 'Usuario no encontrado' })
-  remove(@Param('id') id: string) {
-    return this.usuarioService.remove(+id);
+  async remove(@Param('id') id: string) {
+    return await this.usuarioService.remove(+id);
   }
 }
