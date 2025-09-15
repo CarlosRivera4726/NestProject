@@ -20,7 +20,7 @@ export class CreateLocationDto {
   @ApiProperty({
     description: 'Estado de la ubicación',
     enum: StatusLocation,
-    example: StatusLocation.AVALAIBLE,
+    example: StatusLocation.AVAILABLE,
   })
   status: StatusLocation;
 

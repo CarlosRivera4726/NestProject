@@ -6,7 +6,7 @@ export class CreateInspectionDto {
   @ApiProperty({
     description: 'Estado de la inspección',
     enum: StatusInspection,
-    example: StatusInspection.AVALAIBLE,
+    example: StatusInspection.AVAILABLE,
   })
   @IsEnum(StatusInspection)
   @IsNotEmpty()

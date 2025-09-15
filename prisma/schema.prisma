@@ -23,13 +23,13 @@ enum PersonaRol {
 }
 
 enum StatusLocation {
-  AVALAIBLE
-  UNAVALAIBLE
+  AVAILABLE
+  UNAVAILABLE
 }
 
 enum StatusInspection {
-  AVALAIBLE
-  UNAVALAIBLE
+  AVAILABLE
+  UNAVAILABLE
 }
 
 model Persona {
@@ -77,7 +77,7 @@ model Location {
   id          Int            @id @default(autoincrement())
   name        String
   coordinates String
-  status      StatusLocation @default(AVALAIBLE)
+  status      StatusLocation @default(AVAILABLE)
   created_at  DateTime       @default(now())
   updated_at  DateTime       @default(now()) @updatedAt
   Inspector   Inspector[]
@@ -87,7 +87,7 @@ model Location {
 model Inspection {
   id          Int              @id @default(autoincrement())
   name        String
-  status      StatusInspection @default(AVALAIBLE)
+  status      StatusInspection @default(AVAILABLE)
   location    Location         @relation(fields: [locationId], references: [id])
   locationId  Int
   inspector   Inspector        @relation(fields: [inspectorId], references: [id])
