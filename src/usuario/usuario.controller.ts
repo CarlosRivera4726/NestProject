@@ -6,6 +6,8 @@ import {
   Patch,
   Param,
   Delete,
+  Res,
+  HttpStatus,
 } from '@nestjs/common';
 import {
   ApiTags,
@@ -17,6 +19,7 @@ import {
 import { UsuarioService } from './usuario.service';
 import { CreateUsuarioDto } from './dto/create-usuario.dto';
 import { UpdateUsuarioDto } from './dto/update-usuario.dto';
+import type { Response } from 'express';
 
 @ApiTags('usuario')
 @Controller('usuario')
@@ -38,8 +41,21 @@ export class UsuarioController {
     status: 200,
     description: 'Lista de usuarios obtenida exitosamente',
   })
-  async findAll() {
-    return await this.usuarioService.findAll();
+  async findAll(@Res() res: Response) {
+    try {
+      const locations = await this.usuarioService.findAll();
+      res.status(HttpStatus.OK).json({
+        message: 'Usuarios obtenidos con éxito',
+        status: HttpStatus.OK,
+        data: locations,
+      });
+    } catch (error) {
+      res.status(HttpStatus.BAD_REQUEST).json({
+        message: 'Error al obtener los usuarios',
+        status: HttpStatus.BAD_REQUEST,
+        data: error,
+      });
+    }
   }
 
   @Get(':id')

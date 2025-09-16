@@ -6,6 +6,8 @@ import {
   Patch,
   Param,
   Delete,
+  Res,
+  HttpStatus,
 } from '@nestjs/common';
 import {
   ApiTags,
@@ -17,6 +19,7 @@ import {
 import { InspectorService } from './inspector.service';
 import { CreateInspectorDto } from './dto/create-inspector.dto';
 import { UpdateInspectorDto } from './dto/update-inspector.dto';
+import type { Response } from 'express';
 
 @ApiTags('inspectors')
 @Controller('inspector')
@@ -41,8 +44,22 @@ export class InspectorController {
     status: 200,
     description: 'Lista de inspectores obtenida exitosamente',
   })
-  async findAll() {
-    return await this.inspectorService.findAll();
+  async findAll(@Res() res: Response) {
+    try {
+      const inspectores = await this.inspectorService.findAll();
+
+      res.status(HttpStatus.CREATED).json({
+        message: 'Persona creada con éxito',
+        status: HttpStatus.CREATED,
+        data: inspectores,
+      });
+    } catch (error: unknown) {
+      res.status(HttpStatus.BAD_REQUEST).json({
+        message: 'Error al crear la persona',
+        status: HttpStatus.BAD_REQUEST,
+        data: error,
+      });
+    }
   }
 
   @Get(':id')
