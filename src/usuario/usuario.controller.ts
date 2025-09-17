@@ -31,8 +31,24 @@ export class UsuarioController {
   @ApiBody({ type: CreateUsuarioDto })
   @ApiResponse({ status: 201, description: 'Usuario creado exitosamente' })
   @ApiResponse({ status: 400, description: 'Datos inválidos' })
-  async create(@Body() createUsuarioDto: CreateUsuarioDto) {
-    return await this.usuarioService.create(createUsuarioDto);
+  async create(
+    @Body() createUsuarioDto: CreateUsuarioDto,
+    @Res() res: Response
+  ) {
+    try {
+      const usuario = await this.usuarioService.create(createUsuarioDto);
+      res.status(HttpStatus.CREATED).json({
+        message: 'Usuario creado con éxito',
+        status: HttpStatus.CREATED,
+        data: usuario,
+      });
+    } catch (error) {
+      res.status(HttpStatus.BAD_REQUEST).json({
+        message: error.message,
+        status: HttpStatus.BAD_REQUEST,
+        data: error,
+      });
+    }
   }
 
   @Get()
