@@ -95,7 +95,20 @@ export class InspectorController {
   @ApiParam({ name: 'id', description: 'ID del inspector a eliminar' })
   @ApiResponse({ status: 200, description: 'Inspector eliminado exitosamente' })
   @ApiResponse({ status: 404, description: 'Inspector no encontrado' })
-  async remove(@Param('id') id: string) {
-    return await this.inspectorService.remove(+id);
+  async remove(@Param('id') id: string, @Res() res: Response) {
+    try {
+      const inspector = await this.inspectorService.remove(+id);
+      res.status(HttpStatus.OK).json({
+        message: 'Inspector eliminado con éxito',
+        status: HttpStatus.OK,
+        data: inspector,
+      });
+    } catch (error) {
+      res.status(HttpStatus.BAD_REQUEST).json({
+        message: 'Error al eliminar el inspector',
+        status: HttpStatus.BAD_REQUEST,
+        data: error,
+      });
+    }
   }
 }

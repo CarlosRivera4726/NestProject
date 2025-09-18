@@ -79,8 +79,25 @@ export class PersonaController {
   @ApiBody({ type: UpdatePersonaDto })
   @ApiResponse({ status: 200, description: 'Persona actualizada exitosamente' })
   @ApiResponse({ status: 404, description: 'Persona no encontrada' })
-  update(@Param('id') id: string, @Body() updatePersonaDto: UpdatePersonaDto) {
-    return this.personaService.update(+id, updatePersonaDto);
+  async update(
+    @Param('id') id: string,
+    @Body() updatePersonaDto: UpdatePersonaDto,
+    @Res() res: Response
+  ) {
+    try {
+      const persona = await this.personaService.update(+id, updatePersonaDto);
+      res.status(HttpStatus.OK).json({
+        message: 'Persona actualizada con éxito',
+        status: HttpStatus.OK,
+        data: persona,
+      });
+    } catch (error) {
+      res.status(HttpStatus.BAD_REQUEST).json({
+        message: 'Error al actualizar la persona',
+        status: HttpStatus.BAD_REQUEST,
+        data: error,
+      });
+    }
   }
 
   @Delete(':id')
@@ -88,7 +105,20 @@ export class PersonaController {
   @ApiParam({ name: 'id', description: 'ID de la persona a eliminar' })
   @ApiResponse({ status: 200, description: 'Persona eliminada exitosamente' })
   @ApiResponse({ status: 404, description: 'Persona no encontrada' })
-  remove(@Param('id') id: string) {
-    return this.personaService.remove(+id);
+  async remove(@Param('id') id: string, @Res() res: Response) {
+    try {
+      const persona = await this.personaService.remove(+id);
+      res.status(HttpStatus.OK).json({
+        message: 'Persona eliminada con éxito',
+        status: HttpStatus.OK,
+        data: persona,
+      });
+    } catch (error) {
+      res.status(HttpStatus.BAD_REQUEST).json({
+        message: 'Error al eliminar la persona',
+        status: HttpStatus.BAD_REQUEST,
+        data: error,
+      });
+    }
   }
 }
