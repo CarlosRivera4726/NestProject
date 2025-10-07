@@ -34,8 +34,24 @@ export class InspectorController {
     status: 400,
     description: 'Error en los datos proporcionados',
   })
-  async create(@Body() createInspectorDto: CreateInspectorDto) {
-    return await this.inspectorService.create(createInspectorDto);
+  async create(
+    @Body() createInspectorDto: CreateInspectorDto,
+    @Res() res: Response
+  ) {
+    try {
+      const inspector = await this.inspectorService.create(createInspectorDto);
+      res.status(HttpStatus.CREATED).json({
+        message: 'Inspector creado con éxito',
+        status: HttpStatus.CREATED,
+        data: inspector,
+      });
+    } catch (error) {
+      res.status(HttpStatus.BAD_REQUEST).json({
+        message: error.message,
+        status: HttpStatus.BAD_REQUEST,
+        data: error,
+      });
+    }
   }
 
   @Get()

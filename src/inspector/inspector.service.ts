@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CreateInspectorDto } from './dto/create-inspector.dto';
 import { UpdateInspectorDto } from './dto/update-inspector.dto';
 import { PrismaService } from 'src/prisma.service';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class InspectorService {
@@ -9,16 +10,55 @@ export class InspectorService {
 
   async create(createInspectorDto: CreateInspectorDto) {
     try {
-      const inspector = await this.prisma.inspector.create({
-        data: {
-          personaId: createInspectorDto.personaId,
-          locationId: createInspectorDto.locationId,
-        },
-      });
+      const { personaId, name, lastName, email, password, locationId } =
+        createInspectorDto;
 
-      return inspector;
-    } catch (error: unknown) {
-      return error;
+      const normalizedLocationId =
+        typeof locationId === 'number' && locationId > 0 ? locationId : null;
+      if (personaId && personaId > 0) {
+        return await this.prisma.inspector.create({
+          data: { personaId, locationId: normalizedLocationId },
+          include: { persona: true },
+        });
+      }
+      const hash = await bcrypt.hash(password, 10);
+
+      return await this.prisma.$transaction(async (tx) => {
+        const persona = await tx.persona.create({
+          data: {
+            name: `${name ?? ''} ${lastName ?? ''}`.trim(),
+            email,
+            password: hash,
+            role: 'INSPECTOR',
+          },
+        });
+        let inspector = await tx.inspector.findUnique({
+          where: { personaId: persona.id },
+          include: { persona: true, Location: true },
+        });
+
+        if (!inspector) {
+          inspector = await tx.inspector.create({
+            data: { personaId: persona.id, locationId: normalizedLocationId },
+            include: { persona: true, Location: true },
+          });
+        } else {
+          inspector = await tx.inspector.update({
+            where: { personaId: inspector.personaId },
+            data: { locationId: normalizedLocationId },
+            include: { persona: true, Location: true },
+          });
+        }
+
+        return inspector;
+      });
+    } catch (e: any) {
+      if (e.code === 'P2002' && e.meta.target[0] === 'email') {
+        throw new Error('El correo ya esta asignado a un inspector.');
+      } else if (e.code === 'P2002') {
+        throw new Error('El id de la persona ya tiene un inspector asignado.');
+      }
+      throw e;
     }
   }
 
@@ -26,6 +66,7 @@ export class InspectorService {
     return await this.prisma.inspector.findMany({
       include: {
         persona: true,
+        Location: true,
       },
     });
   }
@@ -37,6 +78,7 @@ export class InspectorService {
       },
       include: {
         persona: true,
+        Location: true,
       },
     });
   }
