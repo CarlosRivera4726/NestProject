@@ -7,6 +7,7 @@ import { AuthModule } from './auth/auth.module';
 import { InspectorModule } from './inspector/inspector.module';
 import { AdministratorModule } from './administrator/administrator.module';
 import { UsuarioModule } from './usuario/usuario.module';
+import { MercadoPagoModule } from './mercado-pago/mercado-pago.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { UsuarioModule } from './usuario/usuario.module';
     InspectorModule,
     AdministratorModule,
     UsuarioModule,
+    MercadoPagoModule,
   ],
   controllers: [],
   providers: [PrismaService],

@@ -48,6 +48,7 @@ Ejemplo local (para pruebas):
 
 ```text
 DATABASE_URL="postgresql://postgres:mysecretpassword@localhost:5432/mydb?schema=public"
+MP_ACCESS_TOKEN="TEST-*****************************************************************"
 ```
 
 Nota: crea la base de datos indicada (por ejemplo `mydb`) en tu instancia de Postgres antes de ejecutar las migraciones o usa una base de datos existente.
