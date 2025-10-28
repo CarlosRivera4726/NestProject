@@ -5,6 +5,7 @@
 ## Descripción
 
 Repositorio base de una aplicación NestJS (TypeScript) con Prisma ya configurado. Este README contiene lo esencial para arrancar y configurar la base de datos PostgreSQL.
+version de node 22.11.0
 
 ## Dependencias principales
 
