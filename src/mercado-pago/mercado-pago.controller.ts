@@ -36,4 +36,26 @@ export class MercadoPagoController {
   async pay(@Body() dto: CreatePaymentDto) {
     return this.mercadoPagoService.createPayment(dto);
   }
+
+  @Post('register-pay')
+  async registerPay(@Body() dto: any, @Res() res: Response) {
+    try {
+      await this.mercadoPagoService.registerPayment(dto);
+      return res.json({ message: 'Pago registrado exitosamente' });
+    } catch (error) {
+      console.error(error);
+      throw new Error('Error registrando el pago');
+    }
+  }
+
+  @Post('reverse-pay')
+  async reversePay(@Body() dto: any, @Res() res: Response) {
+    try {
+      await this.mercadoPagoService.reversePayment(dto);
+      return res.json({ message: 'Pago revertido exitosamente' });
+    } catch (error) {
+      console.error(error);
+      throw new Error('Error revirtiendo el pago');
+    }
+  }
 }

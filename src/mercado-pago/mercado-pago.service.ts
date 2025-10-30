@@ -2,12 +2,15 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { MercadoPagoConfig, Payment, PaymentMethod } from 'mercadopago';
 import { CreatePaymentDto } from './dto/create-payment.dto';
+import { PrismaService } from 'src/prisma.service';
 
 @Injectable()
 export class MercadoPagoService {
   private client = new MercadoPagoConfig({
     accessToken: process.env.MP_ACCESS_TOKEN as string, // ← secreto .env del servidor
   });
+
+  constructor(private prisma: PrismaService) {}
 
   async getPaymentMethods() {
     try {
@@ -47,6 +50,44 @@ export class MercadoPagoService {
       console.log('Error en createPayment:', e);
       throw new InternalServerErrorException(
         e?.message || 'Error creando el pago'
+      );
+    }
+  }
+
+  async registerPayment(dto: any) {
+    try {
+      console.log('Datos recibidos en registerPayment:', dto);
+      delete dto.money_release_schema;
+      delete dto.order;
+      delete dto.card;
+      delete dto.accounts_info;
+      delete dto.release_info;
+      delete dto.tags;
+      const res = await this.prisma.mpPayment.create({
+        data: {
+          ...dto,
+        },
+      });
+      return res;
+    } catch (e) {
+      console.log('Error en createPayment:', e);
+      throw new InternalServerErrorException(
+        e?.message || 'Error creando el pago'
+      );
+    }
+  }
+  async reversePayment(dto: any) {
+    try {
+      console.log('Datos recibidos en reversePayment:', dto);
+      const res = await this.prisma.mpPayment.delete({
+        where: { id: dto.paymentId },
+        select: { id: true },
+      });
+      return res;
+    } catch (e) {
+      console.log('Error en reversePayment:', e);
+      throw new InternalServerErrorException(
+        e?.message || 'Error revirtiendo el pago'
       );
     }
   }
