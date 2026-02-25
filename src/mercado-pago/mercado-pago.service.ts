@@ -2,7 +2,7 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { MercadoPagoConfig, Payment, PaymentMethod } from 'mercadopago';
 import { CreatePaymentDto } from './dto/create-payment.dto';
-import { PrismaService } from 'src/prisma.service';
+import { PrismaService } from '../prisma.service';
 
 @Injectable()
 export class MercadoPagoService {

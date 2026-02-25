@@ -1,6 +1,6 @@
 import { IsNotEmpty, IsNumber } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
-import { CreatePersonaDto } from 'src/persona/dto/create-persona.dto';
+import { CreatePersonaDto } from '../../persona/dto/create-persona.dto';
 
 export class CreateUsuarioDto extends CreatePersonaDto {
   @ApiProperty({

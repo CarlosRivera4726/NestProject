@@ -3,11 +3,11 @@ import { AuthService } from './auth.service';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { AuthController } from './auth.controller';
-import { PersonaModule } from 'src/persona/persona.module';
-import { appConstants } from 'src/consts/appConstants';
+import { PersonaModule } from '../persona/persona.module';
+import { appConstants } from '../consts/appConstants';
 import { LocalStrategy } from './strategies/LocalStrategy';
-import { PersonaService } from 'src/persona/persona.service';
-import { PrismaService } from 'src/prisma.service';
+import { PersonaService } from '../persona/persona.service';
+import { PrismaService } from '../prisma.service';
 
 @Module({
   imports: [

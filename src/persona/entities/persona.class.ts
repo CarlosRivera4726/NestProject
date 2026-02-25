@@ -1,7 +1,7 @@
 import { StatusLocation } from '@prisma/client';
 import { CreateLocationDto } from 'src/location/dto/create-location.dto';
 import { Location } from 'src/location/entities/location.entity';
-import { PrismaService } from 'src/prisma.service';
+import { PrismaService } from '../../prisma.service';
 abstract class PersonaClass {
   name: string;
   email: string;
