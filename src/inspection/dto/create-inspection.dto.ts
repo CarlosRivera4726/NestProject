@@ -45,4 +45,8 @@ export class CreateInspectionDto {
   @IsNumber()
   @IsNotEmpty()
   inspectorId!: number;
+
+  @IsString()
+  @IsNotEmpty()
+  inspectorEmail!: string;
 }

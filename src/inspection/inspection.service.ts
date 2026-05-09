@@ -10,28 +10,46 @@ export class InspectionService {
 
 
   async create(createInspectionDto: CreateInspectionDto) {
-    return await this.prisma.inspection.create({
-      data: {
-        name: createInspectionDto.name,
-        status: createInspectionDto.status,
-        inspectorId: createInspectionDto.inspectorId,
-        usuarioId: createInspectionDto.userId,
-        locationId: createInspectionDto.locationId
-      },
-      include: {
-        inspector: true,
-        usuario: {
-          select: {
-            persona: {
-              select: {
-                name: true
-              }
-            }
+    try {
+      const inspector = await this.prisma.inspector.findFirst({
+        where: {
+          persona: {
+            email: createInspectionDto.inspectorEmail
           }
         },
-        location: true
+        select: {
+          id: true
+        }
+      })
+      if (!inspector) {
+        throw new Error("No se encontro el inspector")
       }
-    });
+
+      return await this.prisma.inspection.create({
+        data: {
+          name: createInspectionDto.name,
+          status: createInspectionDto.status,
+          inspectorId: inspector?.id,
+          usuarioId: createInspectionDto.userId,
+          locationId: createInspectionDto.locationId
+        },
+        include: {
+          inspector: true,
+          usuario: {
+            select: {
+              persona: {
+                select: {
+                  name: true
+                }
+              }
+            }
+          },
+          location: true
+        }
+      });
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   async findAll() {
@@ -55,7 +73,9 @@ export class InspectionService {
           select: {
             persona: {
               select: {
-                name: true
+                name: true,
+                role: true,
+                email: true
               }
             }
           }
@@ -88,6 +108,13 @@ export class InspectionService {
   }
 
   remove(id: number) {
-    return `This action removes a #${id} inspection`;
+    return this.prisma.inspection.delete({
+      where: {
+        id: id
+      },
+      select: {
+        name: true
+      }
+    });
   }
 }

@@ -6,7 +6,7 @@ import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UsuarioService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private prisma: PrismaService) { }
   async create(createUsuarioDto: CreateUsuarioDto) {
     try {
       const { personaId, name, lastName, email, password } = createUsuarioDto;
@@ -88,5 +88,51 @@ export class UsuarioService {
         id: id,
       },
     });
+  }
+
+  async getAllInspectionsInUser(email: string) {
+    return await this.prisma.inspection.findMany({
+      where: {
+        usuario: {
+          persona: {
+            email: email
+          }
+        }
+      },
+      select: {
+        id: true,
+        usuarioId: true,
+        status: true,
+        name: true,
+        location: {
+          select: {
+            id: true,
+            name: true
+          }
+        },
+        usuario: {
+          select: {
+            persona: {
+              select: {
+                name: true,
+                role: true,
+                email: true
+              }
+            }
+
+
+          }
+        },
+        inspector: {
+          select: {
+            persona: {
+              select: {
+                name: true
+              }
+            }
+          }
+        },
+      }
+    })
   }
 }

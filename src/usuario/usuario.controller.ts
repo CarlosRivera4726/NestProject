@@ -104,4 +104,13 @@ export class UsuarioController {
   async remove(@Param('id') id: string) {
     return await this.usuarioService.remove(+id);
   }
+
+  @Get("inspecciones/:email")
+  @ApiOperation({ summary: "Obtener todas las inspecciones asignadas al usuario" })
+  @ApiParam({ name: 'email', description: "Ide del usuario", type: 'number' })
+  @ApiResponse({ status: 200, description: 'Inspecciones del usuario' })
+  @ApiResponse({ status: 404, description: 'Usuario no encontrado' })
+  async getAllInspectionsInUser(@Param('email') email: string) {
+    return await this.usuarioService.getAllInspectionsInUser(email);
+  }
 }
