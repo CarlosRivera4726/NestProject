@@ -1,12 +1,22 @@
 import { StatusInspection } from '@prisma/client';
-import { IsEnum, IsNotEmpty, IsNumber } from 'class-validator';
+import { IsEnum, IsNotEmpty, IsNumber, IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateInspectionDto {
+
+  @ApiProperty({
+    description: 'Nombre de la inspección',
+    enum: StatusInspection,
+    example: "INSPECTION1",
+  })
+  @IsString()
+  @IsNotEmpty()
+  name!: string;
+
   @ApiProperty({
     description: 'Estado de la inspección',
     enum: StatusInspection,
-    example: StatusInspection.AVAILABLE,
+    example: StatusInspection.INPROGRESS,
   })
   @IsEnum(StatusInspection)
   @IsNotEmpty()

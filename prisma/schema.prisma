@@ -32,6 +32,8 @@ enum StatusLocation {
 enum StatusInspection {
   AVAILABLE
   UNAVAILABLE
+  INPROGRESS
+  FINISHED
 }
 
 model Persona {
