@@ -8,21 +8,21 @@ export class CreateLocationDto {
     example: 'Oficina Central',
   })
   @IsString()
-  name: string;
+  name!: string;
 
   @ApiProperty({
     description: 'Coordenadas de la ubicación',
     example: '40.7128,-74.0060',
   })
   @IsString()
-  coordinates: string;
+  coordinates!: string;
 
   @ApiProperty({
     description: 'Estado de la ubicación',
     enum: StatusLocation,
     example: StatusLocation.AVAILABLE,
   })
-  status: StatusLocation;
+  status!: StatusLocation;
 
   @ApiPropertyOptional({
     description: 'Rol asociado a la ubicación',

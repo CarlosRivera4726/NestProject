@@ -8,21 +8,21 @@ export class CreatePersonaDto {
     example: 'Juan Pérez',
   })
   @IsString()
-  name: string;
+  name!: string;
 
   @ApiProperty({
     description: 'Correo electrónico de la persona',
     example: 'juan.perez@email.com',
   })
   @IsEmail()
-  email: string;
+  email!: string;
 
   @ApiProperty({
     description: 'Contraseña de la persona',
     example: 'password123',
   })
   @IsString()
-  password: string;
+  password!: string;
 
   @ApiPropertyOptional({
     description: 'Rol de la persona',

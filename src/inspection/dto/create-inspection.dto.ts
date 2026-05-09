@@ -10,7 +10,7 @@ export class CreateInspectionDto {
   })
   @IsEnum(StatusInspection)
   @IsNotEmpty()
-  status: StatusInspection;
+  status!: StatusInspection;
 
   @ApiProperty({
     description: 'ID de la ubicación a inspeccionar',
@@ -18,7 +18,7 @@ export class CreateInspectionDto {
   })
   @IsNumber()
   @IsNotEmpty()
-  locationId: number;
+  locationId!: number;
 
   @ApiProperty({
     description: 'ID del usuario que solicita la inspección',
@@ -26,7 +26,7 @@ export class CreateInspectionDto {
   })
   @IsNumber()
   @IsNotEmpty()
-  userId: number;
+  userId!: number;
 
   @ApiProperty({
     description: 'ID del inspector asignado',
@@ -34,5 +34,5 @@ export class CreateInspectionDto {
   })
   @IsNumber()
   @IsNotEmpty()
-  inspectorId: number;
+  inspectorId!: number;
 }

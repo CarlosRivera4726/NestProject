@@ -3,16 +3,16 @@ import { CreateLocationDto } from 'src/location/dto/create-location.dto';
 import { Location } from 'src/location/entities/location.entity';
 import { PrismaService } from '../../prisma.service';
 abstract class PersonaClass {
-  name: string;
-  email: string;
-  password: string;
-  role: string;
+  name!: string;
+  email!: string;
+  password!: string;
+  role!: string;
 
   public abstract createLocation(): Promise<Location>;
 }
 
 export class AdminClass extends PersonaClass {
-  location: Location;
+  location!: Location;
   constructor(
     private prisma: PrismaService,
     location?: CreateLocationDto

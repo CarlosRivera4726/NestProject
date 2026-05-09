@@ -24,7 +24,7 @@ import type { Response } from 'express';
 @ApiTags('usuario')
 @Controller('usuario')
 export class UsuarioController {
-  constructor(private readonly usuarioService: UsuarioService) {}
+  constructor(private readonly usuarioService: UsuarioService) { }
 
   @Post()
   @ApiOperation({ summary: 'Crear un nuevo usuario' })
@@ -42,7 +42,7 @@ export class UsuarioController {
         status: HttpStatus.CREATED,
         data: usuario,
       });
-    } catch (error) {
+    } catch (error: any) {
       res.status(HttpStatus.BAD_REQUEST).json({
         message: error.message,
         status: HttpStatus.BAD_REQUEST,

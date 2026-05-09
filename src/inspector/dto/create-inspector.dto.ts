@@ -8,18 +8,18 @@ export class CreateInspectorDto extends CreatePersonaDto {
     example: 1,
   })
   @IsNumber()
-  personaId: number;
+  personaId!: number;
 
   @ApiProperty({
     description: 'ID de la ubicación a inspeccionar',
     example: 1,
   })
   @IsNumber()
-  locationId: number;
+  locationId!: number;
 
   @ApiProperty({
     description: 'Apellido del inspector',
     example: 'Rivera',
   })
-  lastName: string;
+  lastName!: string;
 }

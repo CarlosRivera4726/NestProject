@@ -10,7 +10,7 @@ export class MercadoPagoService {
     accessToken: process.env.MP_ACCESS_TOKEN as string, // ← secreto .env del servidor
   });
 
-  constructor(private prisma: PrismaService) {}
+  constructor(private prisma: PrismaService) { }
 
   async getPaymentMethods() {
     try {
@@ -46,7 +46,7 @@ export class MercadoPagoService {
         },
       });
       return res;
-    } catch (e) {
+    } catch (e: any) {
       console.log('Error en createPayment:', e);
       throw new InternalServerErrorException(
         e?.message || 'Error creando el pago'
@@ -69,7 +69,7 @@ export class MercadoPagoService {
         },
       });
       return res;
-    } catch (e) {
+    } catch (e: any) {
       console.log('Error en createPayment:', e);
       throw new InternalServerErrorException(
         e?.message || 'Error creando el pago'
@@ -84,7 +84,7 @@ export class MercadoPagoService {
         select: { id: true },
       });
       return res;
-    } catch (e) {
+    } catch (e: any) {
       console.log('Error en reversePayment:', e);
       throw new InternalServerErrorException(
         e?.message || 'Error revirtiendo el pago'

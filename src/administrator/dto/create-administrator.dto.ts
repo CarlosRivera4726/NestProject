@@ -8,5 +8,5 @@ export class CreateAdministratorDto {
     type: 'number',
   })
   @IsNumber()
-  personaId: number;
+  personaId!: number;
 }

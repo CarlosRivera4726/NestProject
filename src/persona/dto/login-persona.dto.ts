@@ -7,18 +7,18 @@ export class LoginPersonaDto {
     example: 'usuario@email.com'
   })
   @IsEmail()
-  email: string;
+  email!: string;
 
   @ApiProperty({
     description: 'Contraseña del usuario',
     example: 'password123'
   })
   @IsString()
-  password: string;
+  password!: string;
 
   @ApiProperty({
     description: 'Rol del usuario',
     example: 'INSPECTOR'
   })
-  role: string;
+  role!: string;
 }

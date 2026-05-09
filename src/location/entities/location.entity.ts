@@ -1,5 +1,5 @@
 export class Location {
-  name: string;
-  coordinates: string;
-  status: string;
+  name!: string;
+  coordinates!: string;
+  status!: string;
 }

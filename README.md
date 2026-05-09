@@ -4,113 +4,108 @@
 
 ## Descripción
 
-Repositorio base de una aplicación NestJS (TypeScript) con Prisma ya configurado. Este README contiene lo esencial para arrancar y configurar la base de datos PostgreSQL.
-version de node 22.11.0
+API REST construida con **NestJS** (TypeScript) + **Prisma** + **PostgreSQL**. Incluye autenticación JWT, integración con MercadoPago para procesamiento de pagos, y Swagger para documentación.
 
-## Dependencias principales
+**Requisito:** Node.js >= 22.11.0
 
-Revisa `package.json` para las versiones exactas; las dependencias clave son:
+## Qué contiene
 
-- @nestjs/core, @nestjs/common, @nestjs/platform-express
-- typescript, ts-node, ts-node-dev (desarrollo)
-- prisma (dev), @prisma/client (runtime)
-- pg (driver de PostgreSQL)
-- jest / @nestjs/testing (tests)
+- **Autenticación:** JWT + Passport (local y JWT strategies)
+- **Base de datos:** PostgreSQL con Prisma ORM
+- **Pagos:** Integración MercadoPago
+- **Validación:** class-validator + Zod
+- **Documentación:** Swagger/OpenAPI
+- **Testing:** Jest (unitarios + e2e)
+- **Code quality:** ESLint + Prettier
 
-Si falta alguna dependencia, ejecuta:
+## Inicio rápido
 
-```powershell
-npm install
-```
-
-## Prisma + PostgreSQL (configuración)
-
-Este proyecto usa Prisma como ORM y PostgreSQL como base de datos. Pasos mínimos para dejar todo listo:
-
-1. Crear un archivo `.env` en la raíz del proyecto.
-2. Añadir la variable `DATABASE_URL` con la connection string de PostgreSQL (ejemplos abajo).
-3. Generar el cliente de Prisma y ejecutar migraciones.
-
-Comandos:
-
-```powershell
-npx prisma generate
-npx prisma migrate dev --name init
-```
-
-Ejemplo de connection string (ajusta usuario, contraseña, host, puerto y base de datos):
-
-```text
-DATABASE_URL="postgresql://USER:PASSWORD@HOST:PORT/DATABASE?schema=public"
-```
-
-Ejemplo local (para pruebas):
-
-```text
-DATABASE_URL="postgresql://postgres:mysecretpassword@localhost:5432/mydb?schema=public"
-MP_ACCESS_TOKEN="TEST-*****************************************************************"
-```
-
-Nota: crea la base de datos indicada (por ejemplo `mydb`) en tu instancia de Postgres antes de ejecutar las migraciones o usa una base de datos existente.
-
-## Crear el archivo .env
-
-En la raíz del proyecto crea un archivo llamado `.env` y pega la connection string. Ejemplo mínimo:
-
-```text
-DATABASE_URL="postgresql://postgres:password@localhost:5432/nestproject?schema=public"
-```
-
-No subas el `.env` al repositorio; añade `.env` a `.gitignore`.
-
-## Scripts útiles (npm)
-
-Comandos comunes que puedes usar:
-
-```powershell
-npm install           # instalar dependencias
-npm run start         # iniciar en modo producción
-npm run start:dev     # iniciar en modo desarrollo (watch)
-npm run start:prod    # iniciar producción optimizada
-npm run test          # tests unitarios
-npm run test:e2e      # e2e tests
-npm run test:cov      # coverage
-```
-
-## Pasos rápidos para empezar
-
-1. Instala dependencias:
+### 1. Instalar dependencias
 
 ```powershell
 npm install
 ```
 
-2. Crea `.env` con `DATABASE_URL` apuntando a tu Postgres.
+(Prisma se genera automáticamente con `postinstall`)
 
-3. Genera Prisma y aplica migraciones:
+### 2. Configurar variables de entorno
+
+Crea archivo `.env` en la raíz con:
+- `DATABASE_URL`: connection string PostgreSQL
+- `MP_ACCESS_TOKEN`: token MercadoPago (si usas pagos)
+
+**No subas `.env` al repo** (ya está en `.gitignore`)
+
+### 3. Aplicar migraciones
 
 ```powershell
-npx prisma generate
-npx prisma migrate dev --name init
+npx prisma migrate dev
 ```
 
-4. Inicia en modo desarrollo:
+Esto crea las tablas en PostgreSQL según `prisma/schema.prisma`.
+
+### 4. Iniciar servidor
 
 ```powershell
 npm run start:dev
 ```
 
-## Buenas prácticas
+Servidor corre en `http://localhost:3000` con Swagger en `/api/docs`.
 
-- Revisa `prisma/schema.prisma` para ver los modelos y la configuración del esquema.
-- Si trabajas con Docker, puedes levantar un contenedor Postgres y usar la connection string hacia ese contenedor.
-- Mantén secretos fuera del repositorio; usa variables de entorno o un secret manager en producción.
+## Scripts disponibles
 
-## Recursos
+| Comando | Descripción |
+|---------|-------------|
+| `npm run start` | Producción |
+| `npm run start:dev` | Desarrollo (watch mode) |
+| `npm run start:debug` | Debug mode |
+| `npm run start:prod` | Build optimizado |
+| `npm run build` | Compilar TypeScript |
+| `npm test` | Tests unitarios |
+| `npm run test:watch` | Tests con watch |
+| `npm run test:cov` | Coverage |
+| `npm run test:e2e` | E2E tests |
+| `npm run lint` | ESLint + fix |
+| `npm run format` | Prettier |
 
-- Documentación NestJS: https://docs.nestjs.com
-- Prisma: https://www.prisma.io/docs
+## Estructura de proyecto
 
-## Licencia
+```
+src/
+├── modules/         # Módulos de negocio
+├── guards/          # Autenticación (JWT, roles)
+├── decorators/      # Decoradores custom
+├── filters/         # Global error handlers
+└── main.ts          # Entry point
 
-Revisa el archivo `LICENSE` para más detalles.
+prisma/
+└── schema.prisma    # Modelos DB + migraciones
+```
+
+## Desarrollo local
+
+**Con PostgreSQL local:**
+```powershell
+# Connection string típica
+DATABASE_URL="postgresql://user:password@localhost:5432/nombre_db?schema=public"
+```
+
+**Con Docker:**
+```powershell
+docker run --name postgres -e POSTGRES_PASSWORD=password -d -p 5432:5432 postgres:latest
+```
+
+Luego crea la BD y aplica migraciones.
+
+## Producción
+
+- Build: `npm run build`
+- Run: `npm run start:prod`
+- Usa secret manager (no variables en .env)
+- PostgreSQL con backups habilitados
+
+## Recursos útiles
+
+- [Documentación NestJS](https://docs.nestjs.com)
+- [Prisma Docs](https://www.prisma.io/docs)
+- [MercadoPago API](https://developers.mercadopago.com)

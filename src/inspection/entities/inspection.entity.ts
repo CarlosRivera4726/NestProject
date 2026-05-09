@@ -3,8 +3,8 @@ import { StatusInspection } from '@prisma/client';
 import { Persona } from 'src/persona/entities/persona.entity';
 
 export class Inspection {
-  Id: number;
-  Status: StatusInspection;
-  Location: Location;
-  Persona: Persona;
+  Id!: number;
+  Status!: StatusInspection;
+  Location!: Location;
+  Persona!: Persona;
 }

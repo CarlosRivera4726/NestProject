@@ -24,7 +24,7 @@ import type { Response } from 'express';
 @ApiTags('inspectors')
 @Controller('inspector')
 export class InspectorController {
-  constructor(private readonly inspectorService: InspectorService) {}
+  constructor(private readonly inspectorService: InspectorService) { }
 
   @Post()
   @ApiOperation({ summary: 'Crear un nuevo inspector' })
@@ -45,7 +45,7 @@ export class InspectorController {
         status: HttpStatus.CREATED,
         data: inspector,
       });
-    } catch (error) {
+    } catch (error: any) {
       res.status(HttpStatus.BAD_REQUEST).json({
         message: error.message,
         status: HttpStatus.BAD_REQUEST,
